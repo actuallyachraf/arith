@@ -1,0 +1,37 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "g++ build active file",
+            "command": "/usr/bin/gcc",
+            "args": [
+                "-g2",
+                "-Wall",
+                "-Wextra",
+                "${file}",
+                "-I${workspaceFolder}",
+                "-o",
+                "${workspaceFolder}/${input:execName}"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "type": "promptString",
+            "id": "execName",
+            "description": "Name your executable.",
+            "default": "fmath-demo"
+        }
+    ]
+}
