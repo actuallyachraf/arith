@@ -60,13 +60,30 @@ typedef struct
     f_digit *dp;
 } f_int;
 
+
+/*
+  F_MALLOC defines macros for heap memory allocations.
+*/
 #ifndef F_MALLOC
 #include <stdlib.h>
 #define F_ALLOC(size) malloc(size)
 #define F_CLEAR(mem) free(mem)
+#define F_REALLOC(mem,newsize) realloc((mem),(newsize))
+#define F_CALLOC(nmemb,size) calloc((nmemb),(size))
 #endif
 
+
+/*
+    Define external API
+*/
+
 int f_init(f_int *a);
+int f_init_size(f_int *a, int size);
+// int f_init_multi(f_int *a, ...);
+
+int f_grow(f_int *a, int size);
 int f_clear(f_int *a);
+// void f_clear_multi(f_int *a, ...);
+void f_clamp(f_int *a);
 
 #endif

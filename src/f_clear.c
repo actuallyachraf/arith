@@ -1,4 +1,5 @@
-#include "../include/fmath.h"
+#include "include/fmath.h"
+#include "../include/debug.h"
 
 /* free an f_int */
 int f_clear(f_int* a){
@@ -18,4 +19,17 @@ int f_clear(f_int* a){
         a->sign = F_ZPOS;
     }
     return F_OKAY;
+}
+
+/* free multiples */
+#include <stdarg.h>
+void f_clear_multi(f_int *a, ...)
+{
+   va_list args;
+   va_start(args, a);
+   while (a != NULL) {
+       f_clear(a);
+       a = va_arg(args, f_int *);
+   }
+   va_end(args);
 }
