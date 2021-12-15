@@ -41,6 +41,30 @@ int f_init_size(f_int* a, int size) {
     return F_OKAY;
 }
 
+
+/* init with a digit value */
+
+/* initialize and set a digit */
+int f_init_set(f_int *a, f_digit b)
+{
+   int err;
+   if ((err = f_init(a)) != F_OKAY) {
+      return err;
+   }
+   f_set(a, b);
+   return err;
+}
+
+/* init a with a copy of b */
+// TODO: use dst,src naming for copy, move operations.
+int f_init_copy(f_int* a,f_int *b) {
+    int res;
+    if((res= f_init(a)) != F_OKAY) {
+        return res;
+    }
+    return f_copy(b,a);
+}
+
 /* init multiple f_int using variadic arguments */
 // TODO: fix leak in f_init_multi
 #include "../include/debug.h"
