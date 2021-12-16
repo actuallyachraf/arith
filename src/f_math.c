@@ -3,7 +3,7 @@
 /* basic mathematical operations */
 
 /* compute the absolute value b = |a| */
-int f_abs(f_int* a,f_int*b){
+int f_abs(f_int* a,f_int* b){
     int res;
 
     if (a != b){

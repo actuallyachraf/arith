@@ -1,6 +1,7 @@
 #include "include/fmath.h"
 
-int f_cmp(f_int*a , f_int*b){
+/* f_cmp_mag compares unsigned f_int based on their digit values */
+int f_cmp_mag(f_int*a , f_int*b){
     int n;
     f_digit *tmpa, *tmpb;
 
@@ -23,4 +24,21 @@ int f_cmp(f_int*a , f_int*b){
         }
     }
     return F_EQ;
+}
+
+/* f_cmp compares signed/unsigned f_int based on their sign and digit values */
+int f_cmp(f_int *a, f_int* b){
+    /* compare based on sign */
+    if (a->sign != b->sign) {
+        if(a->sign == F_NEG){
+            return F_LT;
+        } else {
+            return F_GT;
+        }
+    }
+    if (a->sign == F_NEG) {
+        return f_cmp_mag(b, a);
+    } else {
+        return f_cmp_mag(a, b);
+    }
 }

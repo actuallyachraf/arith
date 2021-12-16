@@ -87,8 +87,11 @@ int f_init_size(f_int *a, int size);
 
 int f_init_set(f_int *a, f_digit b);
 
+int f_abs(f_int *a, f_int *b);
+int f_neg(f_int *a, f_int *b);
 
 int f_clear(f_int *a);
+int f_cmp_mag(f_int *a, f_int *b);
 int f_cmp(f_int *a, f_int *b);
 int f_copy(f_int *a, f_int *b);
 int f_grow(f_int *a, int size);

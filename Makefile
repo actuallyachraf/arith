@@ -2,10 +2,13 @@ SRC_DIR := src
 OBJ_DIR := obj
 INC_DIR := include
 BIN_DIR := bin
+TEST_DIR := tests
 IDIR =../fmath
+
 EXE := $(BIN_DIR)/fmath-demo
 SRC := $(wildcard $(SRC_DIR)/*.c)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
 
 CPPFLAGS := -MMD -MP
 CFLAGS   := -I${IDIR} -g2 -Wall

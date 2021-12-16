@@ -2,10 +2,12 @@
 #include <assert.h>
 
 #include "include/fmath.h"
+#include "include/debug.h"
+#include "include/test.h"
 
 int main()
 {
-
+    DEBUG("TESTING FMATH\n");
     /* check single init */
     f_int a;
     f_init(&a);
@@ -16,15 +18,19 @@ int main()
 
     f_init(&b);
     f_init(&c);
+
     /* assert iszero */
-    assert(f_iszero(&b));
+    ASSERT_TRUE(f_iszero(&b));
+    ASSERT_TRUE(f_iszero(&c));
+    /* cleanup */
     f_clear(&b);
     f_clear(&c);
 
+    /* assert compare */
     f_init_set(&d,100000);
     f_init_set(&e,10000);
 
-    assert(f_cmp(&d, &e) == F_GT);
+    ASSERT_EQ(f_cmp_mag(&d, &e),F_GT);
 
     f_clear(&d);
     f_clear(&e);
@@ -35,12 +41,17 @@ int main()
     f_grow(&f, F_PREC * 8);
     f_clear(&f);
 
-    /* check copy */
+
+     /* check copy */
     f_int y;
     f_int z;
     f_init_set(&y,2345678);
-    f_init_set(&z,2345678);
-    assert(f_cmp(&y, &z) == F_EQ);
+    // TODO: check for z == NULL in  neg/abs init if null
+    f_init(&z);
+    f_neg(&y, &z);
+    ASSERT_TRUE(z.sign == F_NEG);
+    ASSERT_EQ(f_cmp(&y, &z), F_GT);
+    /* clean up */
     f_clear(&y);
     f_clear(&z);
 
@@ -48,7 +59,4 @@ int main()
     f_int big_x;
     f_init_set(&big_x, x);
     f_clear(&big_x);
-    printf("Hello World !\n");
-    printf("%ld \n", x);
-    printf("Mask (2**k - 1) = %ld \n", F_MASK);
 }
