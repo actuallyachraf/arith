@@ -1,65 +1,88 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "include/fmath.h"
+#include "include/arith.h"
 #include "include/debug.h"
 #include "include/test.h"
 
-
-void test_init() {
+void test_init()
+{
     /* check single init */
-    f_int a;
-    f_init(&a);
-    f_clear(&a);
+    mp_int a;
+    mp_init(&a);
+    mp_clear(&a);
 }
 
-void test_multi_init(){
-   /* check multi init */
-   f_int b, c;
+void test_multi_init()
+{
+    /* check multi init */
+    mp_int b, c;
 
-   f_init(&b);
-   f_init(&c);
-   /* assert iszero */
-   ASSERT_TRUE(f_iszero(&b));
-   ASSERT_TRUE(f_iszero(&c));
-   /* cleanup */
-   f_clear(&b);
-   f_clear(&c);
+    mp_init(&b);
+    mp_init(&c);
+    /* assert iszero */
+    ASSERT_TRUE(mp_iszero(&b));
+    ASSERT_TRUE(mp_iszero(&c));
+    /* cleanup */
+    mp_clear(&b);
+    mp_clear(&c);
 }
 
-void test_cmp() {
-    f_int d, e;
+void test_cmp()
+{
+    mp_int d, e;
     /* assert compare */
-    f_init_set(&d,100000);
-    f_init_set(&e,10000);
+    mp_init_set(&d, 100000);
+    mp_init_set(&e, 10000);
 
-    ASSERT_EQ(f_cmp_mag(&d, &e),F_GT);
+    ASSERT_EQ(mp_cmp_mag(&d, &e), MP_GT);
 
-    f_clear(&d);
-    f_clear(&e);
+    mp_clear(&d);
+    mp_clear(&e);
 }
 
-void test_neg_cmp() {
+void test_neg_cmp()
+{
     /* check copy */
-    f_int y;
-    f_int z;
-    f_init_set(&y,2345678);
+    mp_int y;
+    mp_int z;
+    mp_init_set(&y, 2345678);
     // TODO: check for z == NULL in  neg/abs init if null
-    f_init(&z);
-    f_neg(&y, &z);
-    ASSERT_TRUE(z.sign == F_NEG);
-    ASSERT_EQ(f_cmp(&y, &z), F_GT);
+    mp_init(&z);
+    mp_neg(&y, &z);
+    ASSERT_TRUE(z.sign == MP_NEG);
+    ASSERT_EQ(mp_cmp(&y, &z), MP_GT);
     /* clean up */
-    f_clear(&y);
-    f_clear(&z);
+    mp_clear(&y);
+    mp_clear(&z);
 }
 
-void test_grow() {
+void test_grow()
+{
     /* check grow */
-    f_int f;
-    f_init(&f);
-    f_grow(&f, F_PREC * 8);
-    f_clear(&f);
+    mp_int f;
+    mp_init(&f);
+    mp_grow(&f, MP_PREC * 8);
+    mp_clear(&f);
+}
+
+void test_s_math() {
+    mp_int a, b, c;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 12345 + 12345);
+    mp_init_set(&a, 12345);
+    mp_init_set(&b, 12345);
+
+    s_mp_add(&a, &b, &c);
+
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&b);
+    mp_clear(&c);
+    mp_clear(&expected);
 }
 
 int main()
@@ -70,4 +93,5 @@ int main()
     test_cmp();
     test_neg_cmp();
     test_grow();
+    test_s_math();
 }

@@ -1,32 +1,32 @@
-#include "include/fmath.h"
+#include "include/arith.h"
 
 /* basic mathematical operations */
 
 /* compute the absolute value b = |a| */
-int f_abs(f_int* a,f_int* b){
+int mp_abs(mp_int* a,mp_int* b){
     int res;
 
     if (a != b){
-        if((res=f_copy(a,b)) != F_OKAY){
+        if((res=mp_copy(a,b)) != MP_OKAY){
             return res;
         }
     }
-    b->sign = F_ZPOS;
-    return F_OKAY;
+    b->sign = MP_ZPOS;
+    return MP_OKAY;
 }
 
 /* compute the negation b = -a */
-int f_neg(f_int* a,f_int* b) {
+int mp_neg(mp_int* a,mp_int* b) {
     int res;
      if (a != b){
-        if((res=f_copy(a,b)) != F_OKAY){
+        if((res=mp_copy(a,b)) != MP_OKAY){
             return res;
         }
     }
-    if (f_iszero(b) != true) {
-        b->sign = (a->sign == F_ZPOS) ? F_NEG : F_ZPOS;
+    if (mp_iszero(b) != true) {
+        b->sign = (a->sign == MP_ZPOS) ? MP_NEG : MP_ZPOS;
     } else {
-        b->sign = F_ZPOS;
+        b->sign = MP_ZPOS;
     }
-    return F_OKAY;
+    return MP_OKAY;
 }

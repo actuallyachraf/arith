@@ -1,16 +1,16 @@
-#include "include/fmath.h"
+#include "include/arith.h"
 
 /* grow allocated array by requested */
-int f_grow(f_int* a,int size) {
+int mp_grow(mp_int* a,int size) {
     int i = 0;
-    f_digit *tmp;
+    mp_digit *tmp;
     /* if the allocated size is smaller allocate more*/
     if (a->alloc < size){
         /* ensure at least MP_PREC */
-        size += (F_PREC * 2) - (size % F_PREC);
-        tmp = (f_digit *)F_REALLOC(a->dp, sizeof(f_digit) * size);
+        size += (MP_PREC * 2) - (size % MP_PREC);
+        tmp = (mp_digit *)MP_REALLOC(a->dp, sizeof(mp_digit) * size);
         if (tmp == NULL) {
-            return F_MEM;
+            return MP_MEM;
         }
         a->dp = tmp;
         /* zero excess digits */
@@ -20,5 +20,5 @@ int f_grow(f_int* a,int size) {
             a->dp[i] = 0;
         }
     }
-    return F_OKAY;
+    return MP_OKAY;
 }

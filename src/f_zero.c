@@ -1,12 +1,12 @@
-#include "include/fmath.h"
+#include "include/arith.h"
 
 
-/* zero an f_int */
-void f_zero(f_int* a) {
+/* zero an mp_int */
+void mp_zero(mp_int* a) {
     int n = 0;
-    f_digit *tmp;
+    mp_digit *tmp;
 
-    a->sign = F_ZPOS;
+    a->sign = MP_ZPOS;
     a->used = 0;
 
     tmp = a->dp;

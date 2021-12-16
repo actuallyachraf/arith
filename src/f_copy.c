@@ -1,18 +1,18 @@
-#include "include/fmath.h"
+#include "include/arith.h"
 
 
-int f_copy(f_int* a, f_int* b) {
+int mp_copy(mp_int* a, mp_int* b) {
 
     int res, n;
     if (a == b) {
-        return F_OKAY;
+        return MP_OKAY;
     }
     if(b->alloc < a->alloc) {
-        if((res = f_grow(b,a->used)) != F_OKAY) {
+        if((res = mp_grow(b,a->used)) != MP_OKAY) {
             return res;
         }
     }
-    register f_digit *tmp_a, *tmp_b;
+    register mp_digit *tmp_a, *tmp_b;
     tmp_a = a->dp;
     tmp_b = b->dp;
 
@@ -24,5 +24,5 @@ int f_copy(f_int* a, f_int* b) {
     }
     b->used = a->used;
     b->sign = a->sign;
-    return F_OKAY;
+    return MP_OKAY;
 }

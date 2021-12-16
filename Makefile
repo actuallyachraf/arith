@@ -5,7 +5,7 @@ BIN_DIR := bin
 TEST_DIR := tests
 IDIR =../fmath
 
-EXE := $(BIN_DIR)/fmath-demo
+EXE := $(BIN_DIR)/arith-demo
 SRC := $(wildcard $(SRC_DIR)/*.c)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

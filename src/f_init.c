@@ -1,83 +1,83 @@
-#include "include/fmath.h"
+#include "include/arith.h"
 
 
-/* init a new f_int */
-int f_init(f_int* a) {
+/* init a new mp_int */
+int mp_init(mp_int* a) {
     int i = 0;
 
     /* allocate necessary memory and zero it */
-    a->dp = (f_digit*) F_ALLOC(sizeof(f_digit) * F_PREC);
+    a->dp = (mp_digit*) MP_ALLOC(sizeof(mp_digit) * MP_PREC);
     if (a->dp == NULL) {
-        return F_MEM;
+        return MP_MEM;
     }
-    for (i = 0; i < F_PREC;i++){
+    for (i = 0; i < MP_PREC;i++){
         a->dp[i] = 0;
     }
     a->used = 0;
-    a->alloc = F_PREC;
-    a->sign = F_ZPOS;
+    a->alloc = MP_PREC;
+    a->sign = MP_ZPOS;
 
-    return F_OKAY;
+    return MP_OKAY;
 }
 
-/* init a new f_int with predefined precision */
-int f_init_size(f_int* a, int size) {
+/* init a new mp_int with predefined precision */
+int mp_init_size(mp_int* a, int size) {
     int i;
     /* pad size to avoid trivial allocations */
-    size += (F_PREC * 2) - (size % F_PREC);
+    size += (MP_PREC * 2) - (size % MP_PREC);
 
     /* allocate the memory */
-    a->dp = (f_digit *)F_ALLOC(sizeof(f_digit) * size);
+    a->dp = (mp_digit *)MP_ALLOC(sizeof(mp_digit) * size);
     if (a->dp == NULL) {
-        return F_MEM;
+        return MP_MEM;
     }
     /* set the members */
     a->used = 0;
     a->alloc = size;
-    a->sign = F_ZPOS;
+    a->sign = MP_ZPOS;
     for (i = 0; i < size;i++){
         a->dp[i] = 0;
     }
-    return F_OKAY;
+    return MP_OKAY;
 }
 
 
 /* init with a digit value */
 
 /* initialize and set a digit */
-int f_init_set(f_int *a, f_digit b)
+int mp_init_set(mp_int *a, mp_digit b)
 {
    int err;
-   if ((err = f_init(a)) != F_OKAY) {
+   if ((err = mp_init(a)) != MP_OKAY) {
       return err;
    }
-   f_set(a, b);
+   mp_set(a, b);
    return err;
 }
 
 /* init a with a copy of b */
 // TODO: use dst,src naming for copy, move operations.
-int f_init_copy(f_int* a,f_int *b) {
+int mp_init_copy(mp_int* a,mp_int *b) {
     int res;
-    if((res= f_init(a)) != F_OKAY) {
+    if((res= mp_init(a)) != MP_OKAY) {
         return res;
     }
-    return f_copy(b,a);
+    return mp_copy(b,a);
 }
 
-/* init multiple f_int using variadic arguments */
-// TODO: fix leak in f_init_multi
+/* init multiple mp_int using variadic arguments */
+// TODO: fix leak in mp_init_multi
 #include "../include/debug.h"
 #include <stdarg.h>
-int f_init_multi(f_int* a,...){
-    f_err res = F_OKAY;
+int mp_init_multi(mp_int* a,...){
+    mp_err res = MP_OKAY;
     int n = 0;
-    f_int *curr_arg = a;
+    mp_int *curr_arg = a;
     va_list args;
 
     va_start(args, a);
     while (curr_arg != NULL) {
-        if(f_init(curr_arg) != F_OKAY) {
+        if(mp_init(curr_arg) != MP_OKAY) {
             DEBUG("ALLOCATION FAILED");
             /* if one init fails we backtrack and return */
             va_list clean_args;
@@ -85,16 +85,16 @@ int f_init_multi(f_int* a,...){
             curr_arg = a;
             va_start(clean_args, a);
             while(n-- != 0) {
-                f_clear(curr_arg);
-                curr_arg = va_arg(clean_args, f_int*);
+                mp_clear(curr_arg);
+                curr_arg = va_arg(clean_args, mp_int*);
             }
             va_end(clean_args);
-            res = F_MEM;
+            res = MP_MEM;
             break;
         }
         DEBUG("ONE ALLOCATION SUCCEEDED");
         n++;
-        curr_arg = va_arg(args, f_int *);
+        curr_arg = va_arg(args, mp_int *);
     }
     DEBUG("ALL ALLOCATION SUCCEEDED");
     va_end(args);

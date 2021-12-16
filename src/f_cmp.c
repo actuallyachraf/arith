@@ -1,15 +1,15 @@
-#include "include/fmath.h"
+#include "include/arith.h"
 
-/* f_cmp_mag compares unsigned f_int based on their digit values */
-int f_cmp_mag(f_int*a , f_int*b){
+/* mp_cmp_mag compares unsigned mp_int based on their digit values */
+int mp_cmp_mag(mp_int*a , mp_int*b){
     int n;
-    f_digit *tmpa, *tmpb;
+    mp_digit *tmpa, *tmpb;
 
     if (a->used > b->used) {
-        return F_GT;
+        return MP_GT;
     }
     if (a->used < b->used) {
-        return F_LT;
+        return MP_LT;
     }
 
     tmpa = a->dp + (a->used - 1);
@@ -17,28 +17,28 @@ int f_cmp_mag(f_int*a , f_int*b){
 
     for (n = 0; n < a->used;++n,--tmpa,--tmpb) {
         if(*tmpa > *tmpb) {
-            return F_GT;
+            return MP_GT;
         }
         if (*tmpa < *tmpb) {
-            return F_LT;
+            return MP_LT;
         }
     }
-    return F_EQ;
+    return MP_EQ;
 }
 
-/* f_cmp compares signed/unsigned f_int based on their sign and digit values */
-int f_cmp(f_int *a, f_int* b){
+/* mp_cmp compares signed/unsigned mp_int based on their sign and digit values */
+int mp_cmp(mp_int *a, mp_int* b){
     /* compare based on sign */
     if (a->sign != b->sign) {
-        if(a->sign == F_NEG){
-            return F_LT;
+        if(a->sign == MP_NEG){
+            return MP_LT;
         } else {
-            return F_GT;
+            return MP_GT;
         }
     }
-    if (a->sign == F_NEG) {
-        return f_cmp_mag(b, a);
+    if (a->sign == MP_NEG) {
+        return mp_cmp_mag(b, a);
     } else {
-        return f_cmp_mag(a, b);
+        return mp_cmp_mag(a, b);
     }
 }
