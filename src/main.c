@@ -87,7 +87,7 @@ void test_s_math() {
 
 int main()
 {
-    DEBUG("TESTING FMATH\n");
+    DEBUG("TESTING ARITH\n");
     test_init();
     test_multi_init();
     test_cmp();

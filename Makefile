@@ -3,7 +3,7 @@ OBJ_DIR := obj
 INC_DIR := include
 BIN_DIR := bin
 TEST_DIR := tests
-IDIR =../fmath
+IDIR =../arith
 
 EXE := $(BIN_DIR)/arith-demo
 SRC := $(wildcard $(SRC_DIR)/*.c)

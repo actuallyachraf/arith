@@ -31,7 +31,7 @@
             "type": "promptString",
             "id": "execName",
             "description": "Name your executable.",
-            "default": "fmath-demo"
+            "default": "arith-demo"
         }
     ]
 }
