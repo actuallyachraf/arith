@@ -1,10 +1,12 @@
 #include "include/arith.h"
 #include <assert.h>
 
-/* chars used in radix conversions
-   could be split to unique basis
-   to avoid expensive loops
-*/
+/**
+ * @brief : provide a raw map to ascii <=> int values.
+ * @note : chars used in radix conversions
+ * could be split to unique basis
+ * to avoid expensive loops
+ */
 const char s_mp_radix_map[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/";
 const uint8_t s_mp_radix_map_reverse[] = {
    0x3e, 0xff, 0xff, 0xff, 0x3f, 0x00, 0x01, 0x02, 0x03, 0x04, /* +,-./01234 */

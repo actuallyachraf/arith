@@ -39,14 +39,15 @@ int s_mp_add(mp_int* a, mp_int* b, mp_int* c){
         for (i = 0; i < min;i++) {
             *tmpc = *tmpa++ + *tmpb++ + u;
             /* set the carry */
-            /*
-             this branch might seem confused but the trick is
-             in understanding what right-shift does.
-             a right-shift operator of the form a >> k
-             is equivalent of dividing a by 2^k.
-             c[i] = a[i] + b[i] + carry.
-             divding c[i] by 2^60 allows us to truncate c[i]
-             in the radix allowed range.
+            /**
+             * @note
+             * this branch might seem confusing but the trick is
+             * in understanding what right-shift does.
+             * a right-shift operator of the form a >> k
+             * is equivalent of dividing a by 2^k.
+             * c[i] = a[i] + b[i] + carry.
+             * divding c[i] by 2^60 allows us to truncate c[i]
+             * in the radix allowed range since unsigned types overlap.
             */
             u = *tmpc >> ((mp_digit)MP_DIGIT_BIT);
             /* take away carry bit from c[i] */
