@@ -66,7 +66,7 @@ void test_grow()
     mp_clear(&f);
 }
 
-void test_s_math() {
+void test_s_add() {
     mp_int a, b, c;
     mp_int expected;
 
@@ -85,6 +85,64 @@ void test_s_math() {
     mp_clear(&expected);
 }
 
+void test_s_add_64() {
+    mp_int a, b, c;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 123457891011121314 + 123457891011121314);
+    mp_init_set(&a, 123457891011121314);
+    mp_init_set(&b, 123457891011121314);
+
+    s_mp_add(&a, &b, &c);
+
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&b);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
+
+void test_s_sub() {
+    mp_int a, b, c;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 12345 - 1234);
+    mp_init_set(&a, 12345);
+    mp_init_set(&b, 1234);
+
+    s_mp_sub(&a, &b, &c);
+
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&b);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
+
+void test_s_sub_64() {
+    mp_int a, b, c;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 123457891011121314 - 123457891011);
+    mp_init_set(&a, 123457891011121314);
+    mp_init_set(&b, 123457891011);
+
+    s_mp_sub(&a, &b, &c);
+
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&b);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
+
+
 int main()
 {
     DEBUG("TESTING ARITH\n");
@@ -93,5 +151,8 @@ int main()
     test_cmp();
     test_neg_cmp();
     test_grow();
-    test_s_math();
+    test_s_add();
+    test_s_sub();
+    test_s_add_64();
+    test_s_sub_64();
 }

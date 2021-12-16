@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define CHAR_BIT 8
 #define MP_64BIT
 
 typedef uint64_t mp_digit;
@@ -103,6 +104,8 @@ void mp_zero(mp_int *a);
 
 /*
   Low level arithmetic API.
+  TODO: move low level operations to internal.h
 */
 int s_mp_add(mp_int *a, mp_int *b, mp_int *c);
+int s_mp_sub(mp_int *a, mp_int *b, mp_int *c);
 #endif
