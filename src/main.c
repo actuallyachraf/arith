@@ -185,6 +185,56 @@ void test_mp_sub_d()
     mp_clear(&expected);
 }
 
+void test_mp_mul_d()
+{
+    mp_int a, c;
+    mp_digit b;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 12345678910 * 256);
+    mp_init_set(&a, 12345678910);
+
+    b = 256;
+    mp_mul_d(&a, b, &c);
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
+
+void test_mp_mul_d_self()
+{
+    mp_int a;
+    mp_digit b;
+    mp_int expected;
+
+    mp_init_set(&expected, 12345678910 * 256);
+    mp_init_set(&a, 12345678910);
+
+    b = 256;
+    mp_mul_d(&a, b, &a);
+    ASSERT_EQ(mp_cmp(&a, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&expected);
+}
+
+void test_mp_read_radix()
+{
+    mp_int a;
+    mp_init(&a);
+    uint64_t expected[5] = {1152921504606846957, 1152921504606846975, 1152921504606846975, 1152921504606846975, 32767};
+    mp_read_radix(&a, "57896044618658097711785492504343953926634992332820282019728792003956564819949", 10);
+    for (int i = 0; i < a.used; i++)
+    {
+        ASSERT_EQ(expected[i], a.dp[i]);
+    }
+
+    mp_clear(&a);
+}
+
 int main()
 {
     DEBUG("TESTING ARITH\n");
@@ -200,4 +250,7 @@ int main()
     test_s_sub_64();
     test_mp_add_d();
     test_mp_sub_d();
+    test_mp_mul_d();
+    test_mp_mul_d_self();
+    test_mp_read_radix();
 }

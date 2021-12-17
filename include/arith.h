@@ -110,16 +110,27 @@ void mp_zero(mp_int *a);
 
 
 /*
+ Radix constants
+*/
+char mp_radix(int x);
+uint8_t mp_radix_reverse(int x);
+int mp_read_radix(mp_int *a, const char *str, int radix);
+
+/*
 High level arithmetic API.
 */
+
 int mp_add(mp_int *a, mp_int *b, mp_int *c);
 int mp_sub(mp_int *a, mp_int *b, mp_int *c);
 int mp_add_d(mp_int *a, mp_digit b, mp_int *c);
 int mp_sub_d(mp_int *a, mp_digit b, mp_int *c);
+int mp_mul_d(mp_int *a, mp_digit b, mp_int *c);
+
 /*
   Low level arithmetic API.
   TODO: move low level operations to internal.h
 */
 int s_mp_add(mp_int *a, mp_int *b, mp_int *c);
 int s_mp_sub(mp_int *a, mp_int *b, mp_int *c);
+
 #endif

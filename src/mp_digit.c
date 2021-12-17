@@ -147,3 +147,49 @@ int mp_add_d(mp_int *a, mp_digit b, mp_int *c)
     mp_clamp(c);
     return MP_OKAY;
 }
+/* multiply an mp_int by a digit */
+int mp_mul_d(mp_int* a, mp_digit b,mp_int* c) {
+    mp_digit u, *tmpa, *tmpc;
+    mp_qword r;
+    int ix, res, olduse;
+
+    if(c->alloc < a->used + 1) {
+        if((res=mp_grow(c,a->used+1)) != MP_OKAY) {
+            return res;
+        }
+    }
+    olduse = c->used;
+
+    /* set the sign */
+    c->sign = a->sign;
+
+    /* set pointer aliases */
+    tmpa = a->dp;
+    tmpc = c->dp;
+
+    /* zero the carry */
+    u = 0;
+
+    /* compute columnar multiplication */
+    for (ix = 0; ix < a->used;ix++) {
+        r = ((mp_qword)u) + ((mp_qword)*tmpa++) * ((mp_qword)b);
+        /* mask off higher bits */
+        *tmpc++ = (mp_digit)(r & ((mp_qword)MP_MASK));
+
+        /* propagte carry outwards */
+        u = (mp_digit)(r >> ((mp_qword)MP_DIGIT_BIT));
+    }
+    /* store final carry */
+    *tmpc++ = u;
+    ++ix;
+
+    /* zero leading digits */
+    while(ix++ < olduse) {
+        *tmpc++ = 0;
+    }
+    /* set used count */
+    c->used = a->used + 1;
+    mp_clamp(c);
+
+    return MP_OKAY;
+}
