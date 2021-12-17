@@ -5,12 +5,20 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "debug.h"
+
 #define CHAR_BIT 8
+#define MP_SIZE_OF_BITS(type)    ((size_t)CHAR_BIT * sizeof(type))
+
 #define MP_64BIT
 
 typedef uint64_t mp_digit;
 
 #define MP_DIGIT_BIT 60
+
+#define MP_QWORD
+
+typedef __uint128_t mp_qword;
 
 #define MP_MASK ((((mp_digit)1) << ((mp_digit)MP_DIGIT_BIT)) - ((mp_digit)1))
 #define MP_DIGIT_MAX MP_MASK
@@ -101,7 +109,13 @@ void mp_set(mp_int *a, mp_digit b);
 void mp_zero(mp_int *a);
 
 
-
+/*
+High level arithmetic API.
+*/
+int mp_add(mp_int *a, mp_int *b, mp_int *c);
+int mp_sub(mp_int *a, mp_int *b, mp_int *c);
+int mp_add_d(mp_int *a, mp_digit b, mp_int *c);
+int mp_sub_d(mp_int *a, mp_digit b, mp_int *c);
 /*
   Low level arithmetic API.
   TODO: move low level operations to internal.h

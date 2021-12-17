@@ -66,7 +66,8 @@ void test_grow()
     mp_clear(&f);
 }
 
-void test_s_add() {
+void test_s_add()
+{
     mp_int a, b, c;
     mp_int expected;
 
@@ -85,7 +86,8 @@ void test_s_add() {
     mp_clear(&expected);
 }
 
-void test_s_add_64() {
+void test_s_add_64()
+{
     mp_int a, b, c;
     mp_int expected;
 
@@ -104,7 +106,27 @@ void test_s_add_64() {
     mp_clear(&expected);
 }
 
-void test_s_sub() {
+void test_mp_add_d()
+{
+    mp_int a, c;
+    mp_digit b;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 123457891011121314 + 123457891011121314);
+    mp_init_set(&a, 123457891011121314);
+    b = 123457891011121314;
+    mp_add_d(&a, b, &c);
+
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
+
+void test_s_sub()
+{
     mp_int a, b, c;
     mp_int expected;
 
@@ -123,7 +145,8 @@ void test_s_sub() {
     mp_clear(&expected);
 }
 
-void test_s_sub_64() {
+void test_s_sub_64()
+{
     mp_int a, b, c;
     mp_int expected;
 
@@ -142,10 +165,30 @@ void test_s_sub_64() {
     mp_clear(&expected);
 }
 
+void test_mp_sub_d()
+{
+    mp_int a, c;
+    mp_digit b;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 123457891011121314 - 123457891011);
+    mp_init_set(&a, 123457891011121314);
+
+    b = 123457891011;
+    mp_sub_d(&a, b, &c);
+
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
 
 int main()
 {
     DEBUG("TESTING ARITH\n");
+    ASSERT_TRUE(sizeof(mp_qword) == (2u * sizeof(mp_digit)));
     test_init();
     test_multi_init();
     test_cmp();
@@ -155,4 +198,6 @@ int main()
     test_s_sub();
     test_s_add_64();
     test_s_sub_64();
+    test_mp_add_d();
+    test_mp_sub_d();
 }
