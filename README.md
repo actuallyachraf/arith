@@ -70,4 +70,4 @@ void mp_zero(mp_int *a);
 
 # License
 
-This project is released under MIT License see [LICENSE] for more information.
+This project is released under MIT License see [LICENSE](LICENSE) for more information.
