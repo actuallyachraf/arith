@@ -96,7 +96,7 @@ void test_s_add_64()
     mp_init_set(&a, 123457891011121314);
     mp_init_set(&b, 123457891011121314);
 
-    s_mp_add(&a, &b, &c);
+    mp_add(&a, &b, &c);
 
     ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
 
@@ -231,7 +231,6 @@ void test_mp_read_radix()
     {
         ASSERT_EQ(expected[i], a.dp[i]);
     }
-
     mp_clear(&a);
 }
 

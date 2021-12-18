@@ -125,7 +125,7 @@ int mp_sub(mp_int *a, mp_int *b, mp_int *c);
 int mp_add_d(mp_int *a, mp_digit b, mp_int *c);
 int mp_sub_d(mp_int *a, mp_digit b, mp_int *c);
 int mp_mul_d(mp_int *a, mp_digit b, mp_int *c);
-
+int mp_mul_2(mp_int *a, mp_int *b);
 /*
   Low level arithmetic API.
   TODO: move low level operations to internal.h
