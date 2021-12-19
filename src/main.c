@@ -221,6 +221,40 @@ void test_mp_mul_d_self()
     mp_clear(&expected);
 }
 
+void test_mp_mul_2()
+{
+    mp_int a, c;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 12345678910 * 2);
+    mp_init_set(&a, 12345678910);
+
+    mp_mul_2(&a,&c);
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
+
+void test_mp_div_2()
+{
+    mp_int a, c;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 12345678910 / 2);
+    mp_init_set(&a, 12345678910);
+
+    mp_div_2(&a,&c);
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
+
 void test_mp_read_radix()
 {
     mp_int a;
@@ -250,6 +284,8 @@ int main()
     test_mp_add_d();
     test_mp_sub_d();
     test_mp_mul_d();
+    test_mp_mul_2();
+    test_mp_div_2();
     test_mp_mul_d_self();
     test_mp_read_radix();
 }
