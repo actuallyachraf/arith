@@ -34,7 +34,7 @@ int mp_lshd(mp_int* a, int b){
          * the goal here is to essentially "shift"
          * the digits from top to the bottom.
          */
-        for (x = a->used - 1; x < b;x++) {
+        for (x = a->used - 1; x >= b;x--) {
             *top-- = *bottom--;
         }
         top = a->dp;
