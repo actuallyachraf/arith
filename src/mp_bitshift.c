@@ -49,7 +49,7 @@ int mp_lshd(mp_int* a, int b){
  * @brief mp_rshd right shifts a by b-digits.
  */
 int mp_rshd(mp_int* a, int b) {
-    int x, res;
+    int x;
     if (b <= 0) {
         return MP_OKAY;
     }

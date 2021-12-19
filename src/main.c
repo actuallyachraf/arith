@@ -285,6 +285,24 @@ void test_mp_lshd()
     mp_clear(&expected);
 }
 
+void test_mp_rshd()
+{
+    mp_int a, expected;
+    mp_init(&a);
+    mp_init(&expected);
+
+    mp_read_radix(&a, "57896044618658097711785492504343953926634992332820282019728792003956564819949", 10);
+    mp_read_radix(&expected, "50216813883093446110686315385661331328818843555712276103167", 10);
+
+    // shifting left by 1 digit <=> shifting left by 60-bits
+    mp_rshd(&a, 1);
+    ASSERT_EQ(mp_cmp(&a, &expected),MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&expected);
+}
+
+
 int main()
 {
     DEBUG("TESTING ARITH\n");
@@ -305,5 +323,6 @@ int main()
     test_mp_div_2();
     test_mp_mul_d_self();
     test_mp_lshd();
+    test_mp_rshd();
     test_mp_read_radix();
 }
