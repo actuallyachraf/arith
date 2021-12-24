@@ -8,7 +8,7 @@
 #include "debug.h"
 
 #define CHAR_BIT 8
-#define MP_SIZE_OF_BITS(type)    ((size_t)CHAR_BIT * sizeof(type))
+#define MP_SIZE_OF_BITS(type) ((size_t)CHAR_BIT * sizeof(type))
 
 #define MP_64BIT
 
@@ -71,9 +71,9 @@ typedef struct
 
 /* Define basic checks */
 #define mp_iszero(a) ((a)->used == 0)
-#define mp_isneg(a)  ((a)->sign == MP_NEG)
+#define mp_isneg(a) ((a)->sign == MP_NEG)
 #define mp_iseven(a) (((a)->used == 0) || (((a)->dp[0] & 1u) == 0u))
-#define mp_isodd(a)  (!mp_iseven(a))
+#define mp_isodd(a) (!mp_iseven(a))
 
 /*
   MP_MALLOC defines macros for heap memory allocations.
@@ -82,10 +82,9 @@ typedef struct
 #include <stdlib.h>
 #define MP_ALLOC(size) malloc(size)
 #define MP_CLEAR(mem) free(mem)
-#define MP_REALLOC(mem,newsize) realloc((mem),(newsize))
-#define MP_CALLOC(nmemb,size) calloc((nmemb),(size))
+#define MP_REALLOC(mem, newsize) realloc((mem), (newsize))
+#define MP_CALLOC(nmemb, size) calloc((nmemb), (size))
 #endif
-
 
 /*
     Define external API
@@ -108,7 +107,6 @@ void mp_clamp(mp_int *a);
 void mp_set(mp_int *a, mp_digit b);
 void mp_zero(mp_int *a);
 
-
 /*
  Radix constants
 */
@@ -129,6 +127,7 @@ int mp_mul_2(mp_int *a, mp_int *b);
 int mp_div_2(mp_int *a, mp_int *b);
 int mp_rshd(mp_int *a, int b);
 int mp_lshd(mp_int *a, int b);
+int mp_mul_2k(mp_int *a, int b,mp_int *c);
 
 /*
   Low level arithmetic API.
