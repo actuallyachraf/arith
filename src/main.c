@@ -302,6 +302,21 @@ void test_mp_rshd()
     mp_clear(&expected);
 }
 
+void test_mp_mul2k() {
+    mp_int a,b, expected;
+    mp_init(&a);
+    mp_init(&b);
+    mp_init(&expected);
+
+    mp_read_radix(&a, "57896044618658097711785492504343953926634992332820282019728792003956564819949", 10);
+    mp_read_radix(&expected, "19701003098197239606139520050071806902539869635232723333974146702122860885742139940735635296636653702862110399135744", 10);
+
+    mp_mul_2k(&a, 128, &a);
+        ASSERT_EQ(mp_cmp(&a, &expected),MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&expected);
+}
 
 int main()
 {
@@ -321,6 +336,7 @@ int main()
     test_mp_mul_d();
     test_mp_mul_2();
     test_mp_div_2();
+    test_mp_mul2k();
     test_mp_mul_d_self();
     test_mp_lshd();
     test_mp_rshd();
