@@ -230,7 +230,7 @@ void test_mp_mul_2()
     mp_init_set(&expected, 12345678910 * 2);
     mp_init_set(&a, 12345678910);
 
-    mp_mul_2(&a,&c);
+    mp_mul_2(&a, &c);
     ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
 
     mp_clear(&a);
@@ -247,7 +247,7 @@ void test_mp_div_2()
     mp_init_set(&expected, 12345678910 / 2);
     mp_init_set(&a, 12345678910);
 
-    mp_div_2(&a,&c);
+    mp_div_2(&a, &c);
     ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
 
     mp_clear(&a);
@@ -279,7 +279,7 @@ void test_mp_lshd()
 
     // shifting left by 1 digit <=> shifting left by 60-bits
     mp_lshd(&a, 1);
-    ASSERT_EQ(mp_cmp(&a, &expected),MP_EQ);
+    ASSERT_EQ(mp_cmp(&a, &expected), MP_EQ);
 
     mp_clear(&a);
     mp_clear(&expected);
@@ -296,14 +296,15 @@ void test_mp_rshd()
 
     // shifting left by 1 digit <=> shifting left by 60-bits
     mp_rshd(&a, 1);
-    ASSERT_EQ(mp_cmp(&a, &expected),MP_EQ);
+    ASSERT_EQ(mp_cmp(&a, &expected), MP_EQ);
 
     mp_clear(&a);
     mp_clear(&expected);
 }
 
-void test_mp_mul2k() {
-    mp_int a,b, expected;
+void test_mp_mul2k()
+{
+    mp_int a, b, expected;
     mp_init(&a);
     mp_init(&b);
     mp_init(&expected);
@@ -312,9 +313,29 @@ void test_mp_mul2k() {
     mp_read_radix(&expected, "19701003098197239606139520050071806902539869635232723333974146702122860885742139940735635296636653702862110399135744", 10);
 
     mp_mul_2k(&a, 128, &a);
-        ASSERT_EQ(mp_cmp(&a, &expected),MP_EQ);
+    ASSERT_EQ(mp_cmp(&a, &expected), MP_EQ);
 
     mp_clear(&a);
+    mp_clear(&expected);
+}
+
+void test_mp_div2k()
+{
+    mp_int a, b, c, expected;
+    mp_init(&a);
+    mp_init(&b);
+    mp_init(&c);
+    mp_init(&expected);
+
+    mp_read_radix(&a, "57896044618658097711785492504343953926634992332820282019728792003956564819949", 10);
+    mp_read_radix(&expected, "215679573337205118357336120696157045389097155380324579848828881993727", 10);
+
+    mp_div_2k(&a, 28, &c, NULL);
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&b);
+    mp_clear(&c);
     mp_clear(&expected);
 }
 
@@ -337,6 +358,7 @@ int main()
     test_mp_mul_2();
     test_mp_div_2();
     test_mp_mul2k();
+    test_mp_div2k();
     test_mp_mul_d_self();
     test_mp_lshd();
     test_mp_rshd();

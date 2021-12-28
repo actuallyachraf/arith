@@ -8,7 +8,7 @@
 #define DEBUG_TEST(msg, x, y) printf("[%s] expected %s got %s", msg, x, y)
 
 #define DEBUG_BN(expected, got)                                          \
-    for (int i = 0; i < got.used; i++)                                     \
+    for (int i = 0; i < 4; i++)                                     \
     {                                                                    \
         printf("expected = %ld | got = %ld\n", expected.dp[i], got.dp[i]); \
     }

@@ -75,6 +75,10 @@ typedef struct
 #define mp_iseven(a) (((a)->used == 0) || (((a)->dp[0] & 1u) == 0u))
 #define mp_isodd(a) (!mp_iseven(a))
 
+
+/* Define in place swaps */
+#define MP_SWAP(t, a, b) do { t _c = a; a = b; b = _c; } while (0)
+
 /*
   MP_MALLOC defines macros for heap memory allocations.
 */
@@ -106,6 +110,7 @@ int mp_grow(mp_int *a, int size);
 void mp_clamp(mp_int *a);
 void mp_set(mp_int *a, mp_digit b);
 void mp_zero(mp_int *a);
+void mp_swap(mp_int *a, mp_int *b);
 
 /*
  Radix constants
@@ -128,6 +133,8 @@ int mp_div_2(mp_int *a, mp_int *b);
 int mp_rshd(mp_int *a, int b);
 int mp_lshd(mp_int *a, int b);
 int mp_mul_2k(mp_int *a, int b,mp_int *c);
+int mp_mod_2k(mp_int *a, int b, mp_int *c);
+int mp_div_2k(mp_int *a, int b, mp_int *c, mp_int *d);
 
 /*
   Low level arithmetic API.
