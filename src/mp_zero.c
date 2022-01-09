@@ -14,3 +14,10 @@ void mp_zero(mp_int* a) {
         *tmp++ = 0;
     }
 }
+/* zero the digits of mp_int */
+void mp_zero_digs(mp_digit *d, int digits)
+{
+   while (digits-- > 0) {
+      *d++ = 0;
+   }
+}

@@ -13,6 +13,7 @@
 #define MP_64BIT
 
 typedef uint64_t mp_digit;
+typedef unsigned long mp_word __attribute__((mode(TI)));
 
 #define MP_DIGIT_BIT 60
 
@@ -24,6 +25,9 @@ typedef __uint128_t mp_qword;
 #define MP_DIGIT_MAX MP_MASK
 #define MP_PREC 32
 
+#define MP_MAX_COMBA (int)(1uL << (MP_SIZE_OF_BITS(mp_word) - (2u * (size_t)MP_DIGIT_BIT)))
+#define MP_WARRAY (int)(1uL << ((MP_SIZE_OF_BITS(mp_word) - (2u * (size_t)MP_DIGIT_BIT)) + 1u))
+#define MP_MAX_COMBA (int)(1uL << (MP_SIZE_OF_BITS(mp_word) - (2u * (size_t)MP_DIGIT_BIT)))
 typedef enum
 {
     MP_ZPOS = 0, /* positive */
@@ -75,10 +79,18 @@ typedef struct
 #define mp_iseven(a) (((a)->used == 0) || (((a)->dp[0] & 1u) == 0u))
 #define mp_isodd(a) (!mp_iseven(a))
 
-
 /* Define in place swaps */
-#define MP_SWAP(t, a, b) do { t _c = a; a = b; b = _c; } while (0)
+#define MP_SWAP(t, a, b) \
+    do                   \
+    {                    \
+        t _c = a;        \
+        a = b;           \
+        b = _c;          \
+    } while (0)
 
+/* Define in place min/max */
+#define MP_MIN(x, y) (((x) < (y)) ? (x) : (y))
+#define MP_MAX(x, y) (((x) > (y)) ? (x) : (y))
 /*
   MP_MALLOC defines macros for heap memory allocations.
 */
@@ -110,6 +122,7 @@ int mp_grow(mp_int *a, int size);
 void mp_clamp(mp_int *a);
 void mp_set(mp_int *a, mp_digit b);
 void mp_zero(mp_int *a);
+void mp_zero_digs(mp_digit *d, int digits);
 void mp_swap(mp_int *a, mp_int *b);
 
 /*
@@ -132,7 +145,7 @@ int mp_mul_2(mp_int *a, mp_int *b);
 int mp_div_2(mp_int *a, mp_int *b);
 int mp_rshd(mp_int *a, int b);
 int mp_lshd(mp_int *a, int b);
-int mp_mul_2k(mp_int *a, int b,mp_int *c);
+int mp_mul_2k(mp_int *a, int b, mp_int *c);
 int mp_mod_2k(mp_int *a, int b, mp_int *c);
 int mp_div_2k(mp_int *a, int b, mp_int *c, mp_int *d);
 
@@ -142,5 +155,7 @@ int mp_div_2k(mp_int *a, int b, mp_int *c, mp_int *d);
 */
 int s_mp_add(mp_int *a, mp_int *b, mp_int *c);
 int s_mp_sub(mp_int *a, mp_int *b, mp_int *c);
+int s_mp_mul(mp_int *a, mp_int *b, mp_int *c,int digs);
+int s_mp_mul_comba(mp_int *a, mp_int *b, mp_int *c, int digs);
 
 #endif

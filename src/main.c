@@ -145,6 +145,25 @@ void test_s_sub()
     mp_clear(&expected);
 }
 
+void test_s_mul()
+{
+    mp_int a, b, c;
+    mp_int expected;
+
+    mp_init(&c);
+    mp_init_set(&expected, 12345 * 1234);
+
+    mp_init_set(&a, 12345);
+    mp_init_set(&b, 1234);
+
+    ASSERT_EQ(MP_OKAY,s_mp_mul(&a, &b, &c,4));
+    ASSERT_EQ(mp_cmp(&c, &expected), MP_EQ);
+
+    mp_clear(&a);
+    mp_clear(&b);
+    mp_clear(&c);
+    mp_clear(&expected);
+}
 void test_s_sub_64()
 {
     mp_int a, b, c;
@@ -316,6 +335,7 @@ void test_mp_mul2k()
     ASSERT_EQ(mp_cmp(&a, &expected), MP_EQ);
 
     mp_clear(&a);
+    mp_clear(&b);
     mp_clear(&expected);
 }
 
@@ -352,6 +372,7 @@ int main()
     test_s_sub();
     test_s_add_64();
     test_s_sub_64();
+    test_s_mul();
     test_mp_add_d();
     test_mp_sub_d();
     test_mp_mul_d();
